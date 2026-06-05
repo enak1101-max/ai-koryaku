@@ -20,6 +20,7 @@ const REASSURE = [
 const CARDS = [
   { href: "/chat", label: "体験する", desc: "今すぐAIに話しかけてみる" },
   { href: "/learn", label: "学ぶ", desc: "手順を見ながら練習する" },
+  { href: "/prompts", label: "プロンプト集", desc: "コピーで使える見本文" },
   { href: "/safety", label: "安全ガイド", desc: "安心して使うために" },
 ];
 
