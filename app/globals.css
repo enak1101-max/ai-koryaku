@@ -28,6 +28,22 @@ body {
   outline-offset: 2px;
 }
 
+/* スキップリンク: 通常は隠し、フォーカス時のみ表示（キーボード操作配慮） */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -100px;
+  z-index: 50;
+  background: theme("colors.primary");
+  color: theme("colors.primary-text");
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
 /* モーション控えめ設定を尊重（§2.4） */
 @media (prefers-reduced-motion: reduce) {
   *,

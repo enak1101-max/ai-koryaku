@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
+import { AccessibilityBar } from "@/components/ui/AccessibilityBar";
 
 export const metadata: Metadata = {
   title: "４0代からできるAI攻略",
@@ -21,7 +22,13 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <Providers>{children}</Providers>
+        <a href="#main-content" className="skip-link">
+          本文へスキップ
+        </a>
+        <Providers>
+          <AccessibilityBar />
+          <div id="main-content">{children}</div>
+        </Providers>
       </body>
     </html>
   );

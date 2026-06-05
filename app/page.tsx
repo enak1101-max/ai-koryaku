@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { FontSizeToggle } from "@/components/ui/FontSizeToggle";
 
 /**
  * トップ／オンボーディング — docs/spec.md SCR-01 / docs/design.md §5（FR-01）
@@ -27,10 +26,6 @@ const CARDS = [
 export default function HomePage() {
   return (
     <main className="mx-auto max-w-[720px] px-4 py-6">
-      <div className="mb-6 flex justify-end">
-        <FontSizeToggle />
-      </div>
-
       <h1 className="text-display font-bold leading-tight">
         ４0代からできる
         <br />
