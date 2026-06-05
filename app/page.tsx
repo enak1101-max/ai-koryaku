@@ -3,14 +3,18 @@ import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { FontSizeToggle } from "@/components/ui/FontSizeToggle";
 
 /**
- * トップ／オンボーディング — docs/spec.md SCR-01 / docs/design.md §5
- * ※ #2(基盤) ではトークン適用済みの最小トップを用意。
- *   本格的なオンボーディング実装は #7 で行う。
+ * トップ／オンボーディング — docs/spec.md SCR-01 / docs/design.md §5（FR-01）
  */
 const STEPS = [
   { icon: "🗣️", title: "話す / 打つ", desc: "聞きたいことを伝えるだけ" },
   { icon: "🤖", title: "AIが答える", desc: "わかりやすく返事します" },
   { icon: "🔊", title: "聞ける", desc: "答えを読み上げできます" },
+];
+
+const REASSURE = [
+  "登録なしで すぐ試せる",
+  "むずかしい言葉は使いません",
+  "声で話しかけてもOK",
 ];
 
 const CARDS = [
@@ -40,6 +44,18 @@ export default function HomePage() {
           <PrimaryButton>今すぐ 無料で試す</PrimaryButton>
         </Link>
       </div>
+
+      {/* 安心ポイント（はじめての方へ） */}
+      <ul className="mt-4 grid gap-2">
+        {REASSURE.map((r) => (
+          <li key={r} className="flex items-center gap-2 text-body text-text-sub">
+            <span className="text-accent" aria-hidden>
+              ✓
+            </span>
+            {r}
+          </li>
+        ))}
+      </ul>
 
       <ol className="mt-8 grid grid-cols-3 gap-3">
         {STEPS.map((s, i) => (
