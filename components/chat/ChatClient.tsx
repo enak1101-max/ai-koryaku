@@ -26,6 +26,12 @@ export function ChatClient() {
   const [error, setError] = useState<string | null>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
 
+  // チュートリアルからの「この例文で試す」(?prompt=)を入力欄へ反映（FR-05）
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search).get("prompt");
+    if (p) setInput(p);
+  }, []);
+
   // 残り回数の取得
   useEffect(() => {
     fetch("/api/usage")
