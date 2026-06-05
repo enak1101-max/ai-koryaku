@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * 文字サイズ切替（標準/大/特大） — docs/design.md §2.2
+ * ルート font-size を切替えることで rem ベースの全テキストが一括拡大する。
+ * data-font-scale 属性は lib/font-size.tsx が <html> に付与する。
+ */
+:root {
+  font-size: 18px; /* 標準: 本文18px基準 */
+}
+html[data-font-scale="large"] {
+  font-size: 20px; /* 大 */
+}
+html[data-font-scale="xlarge"] {
+  font-size: 22px; /* 特大 */
+}
+
+body {
+  @apply bg-bg text-text;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* フォーカスを常に可視化（§2.4 / §6 アクセシビリティ） */
+:focus-visible {
+  outline: 3px solid theme("colors.primary");
+  outline-offset: 2px;
+}
+
+/* モーション控えめ設定を尊重（§2.4） */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

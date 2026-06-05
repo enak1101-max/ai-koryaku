@@ -1,0 +1,75 @@
+import Link from "next/link";
+import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { FontSizeToggle } from "@/components/ui/FontSizeToggle";
+
+/**
+ * トップ／オンボーディング — docs/spec.md SCR-01 / docs/design.md §5
+ * ※ #2(基盤) ではトークン適用済みの最小トップを用意。
+ *   本格的なオンボーディング実装は #7 で行う。
+ */
+const STEPS = [
+  { icon: "🗣️", title: "話す / 打つ", desc: "聞きたいことを伝えるだけ" },
+  { icon: "🤖", title: "AIが答える", desc: "わかりやすく返事します" },
+  { icon: "🔊", title: "聞ける", desc: "答えを読み上げできます" },
+];
+
+const CARDS = [
+  { href: "/chat", label: "体験する", desc: "今すぐAIに話しかけてみる" },
+  { href: "/learn", label: "学ぶ", desc: "手順を見ながら練習する" },
+  { href: "/safety", label: "安全ガイド", desc: "安心して使うために" },
+];
+
+export default function HomePage() {
+  return (
+    <main className="mx-auto max-w-[720px] px-4 py-6">
+      <div className="mb-6 flex justify-end">
+        <FontSizeToggle />
+      </div>
+
+      <h1 className="text-display font-bold leading-tight">
+        ４0代からできる
+        <br />
+        AI攻略
+      </h1>
+      <p className="mt-3 text-body-lg text-text-sub">
+        むずかしくない。話すだけ。
+      </p>
+
+      <div className="mt-6">
+        <Link href="/chat" aria-label="今すぐ無料で試す">
+          <PrimaryButton>今すぐ 無料で試す</PrimaryButton>
+        </Link>
+      </div>
+
+      <ol className="mt-8 grid grid-cols-3 gap-3">
+        {STEPS.map((s, i) => (
+          <li
+            key={s.title}
+            className="rounded border-2 border-border p-3 text-center"
+          >
+            <div className="text-display" aria-hidden>
+              {s.icon}
+            </div>
+            <div className="mt-1 text-button font-bold">
+              {i + 1}. {s.title}
+            </div>
+            <div className="mt-1 text-caption text-text-sub">{s.desc}</div>
+          </li>
+        ))}
+      </ol>
+
+      <nav className="mt-8 grid gap-3" aria-label="主要メニュー">
+        {CARDS.map((c) => (
+          <Link
+            key={c.href}
+            href={c.href}
+            className="flex min-h-tap items-center justify-between rounded border-2 border-border px-4 py-3"
+          >
+            <span className="text-body-lg font-bold">{c.label}</span>
+            <span className="text-caption text-text-sub">{c.desc}</span>
+          </Link>
+        ))}
+      </nav>
+    </main>
+  );
+}
