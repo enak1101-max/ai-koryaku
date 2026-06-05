@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "ccagi-tools": {
+      "args": [],
+      "command": "/Users/mikatamura/.ccagi/bin/ccagi-tools-server",
+      "env": {
+        "HOME": "/Users/mikatamura"
+      }
+    },
+    "pil-mcp": {
+      "args": [],
+      "command": "/Users/mikatamura/.ccagi/bin/pil-mcp",
+      "env": {
+        "HOME": "/Users/mikatamura"
+      }
+    }
+  }
+}
