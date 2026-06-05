@@ -1,14 +1,24 @@
 import { cookies } from "next/headers";
+import { getSession } from "@/lib/auth";
 
 /**
  * フリーミアム無料枠カウント（docs/spec.md §4）。
  * MVPでは httpOnly cookie に当日の利用回数を保存し、サーバー側で減算する。
  * （DBは後続Issueで導入予定。厳密さよりUX優先 — 要件 §3.4 / spec §4 のとおり）。
+ * plan=premium のときは上限を大きく緩和する（FR-08）。
  */
 const COOKIE_NAME = "ai-koryaku-usage";
 
 /** 無料枠の1日あたり回数。環境変数で調整可能（既定5回/日）。 */
 export const FREE_DAILY_LIMIT = Number(process.env.FREE_DAILY_LIMIT ?? 5);
+
+/** 有料プランの1日あたり回数（既定100回/日）。 */
+export const PREMIUM_DAILY_LIMIT = Number(process.env.PREMIUM_DAILY_LIMIT ?? 100);
+
+/** 現在のプランに応じた1日あたり上限 */
+function currentLimit(): number {
+  return getSession()?.plan === "premium" ? PREMIUM_DAILY_LIMIT : FREE_DAILY_LIMIT;
+}
 
 type UsageState = { date: string; count: number };
 
@@ -32,11 +42,12 @@ function parse(raw: string | undefined): UsageState {
 
 /** 現在の利用状況（読み取りのみ） */
 export function readUsage(): { count: number; remaining: number; limit: number } {
+  const limit = currentLimit();
   const state = parse(cookies().get(COOKIE_NAME)?.value);
   return {
     count: state.count,
-    remaining: Math.max(0, FREE_DAILY_LIMIT - state.count),
-    limit: FREE_DAILY_LIMIT,
+    remaining: Math.max(0, limit - state.count),
+    limit,
   };
 }
 
@@ -50,22 +61,18 @@ export function consumeUsage(): {
   limit: number;
   setCookie: string;
 } {
+  const limit = currentLimit();
   const state = parse(cookies().get(COOKIE_NAME)?.value);
 
-  if (state.count >= FREE_DAILY_LIMIT) {
-    return {
-      allowed: false,
-      remaining: 0,
-      limit: FREE_DAILY_LIMIT,
-      setCookie: serialize(state),
-    };
+  if (state.count >= limit) {
+    return { allowed: false, remaining: 0, limit, setCookie: serialize(state) };
   }
 
   const next: UsageState = { date: state.date, count: state.count + 1 };
   return {
     allowed: true,
-    remaining: Math.max(0, FREE_DAILY_LIMIT - next.count),
-    limit: FREE_DAILY_LIMIT,
+    remaining: Math.max(0, limit - next.count),
+    limit,
     setCookie: serialize(next),
   };
 }

@@ -8,9 +8,16 @@ import type { PromptTemplate } from "@/lib/prompts";
  * プロンプトカード（docs/spec.md SCR-05 / FR-06）。
  * コピー / 体験チャットで試す。有料(premium)は #6 認証導入までロック表示。
  */
-export function PromptCard({ item }: { item: PromptTemplate }) {
+export function PromptCard({
+  item,
+  unlocked = false,
+}: {
+  item: PromptTemplate;
+  /** 有料テンプレを解放するか（premium会員なら true） */
+  unlocked?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
-  const locked = item.tier === "premium";
+  const locked = item.tier === "premium" && !unlocked;
 
   async function copy() {
     try {

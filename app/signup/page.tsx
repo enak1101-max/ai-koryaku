@@ -1,6 +1,10 @@
-import { ComingSoon } from "@/components/ui/ComingSoon";
+import type { Metadata } from "next";
+import { AuthForm } from "@/components/auth/AuthForm";
 
-// 本実装は #5（認証・フリーミアム課金）で行う。
+export const metadata: Metadata = {
+  title: "無料会員登録 — ４0代からできるAI攻略",
+};
+
 export default function SignupPage() {
-  return <ComingSoon title="無料会員登録" />;
+  return <AuthForm mode="signup" />;
 }

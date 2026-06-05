@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { getSession } from "@/lib/auth";
+
+export const dynamic = "force-dynamic"; // ログイン状態でアカウント表示を変える
 
 /**
  * トップ／オンボーディング — docs/spec.md SCR-01 / docs/design.md §5（FR-01）
@@ -24,8 +27,21 @@ const CARDS = [
 ];
 
 export default function HomePage() {
+  const session = getSession();
   return (
     <main className="mx-auto max-w-[720px] px-4 py-6">
+      <div className="mb-2 flex justify-end">
+        {session ? (
+          <Link href="/mypage" className="text-button font-bold text-primary">
+            マイページ
+          </Link>
+        ) : (
+          <Link href="/login" className="text-button font-bold text-primary">
+            ログイン
+          </Link>
+        )}
+      </div>
+
       <h1 className="text-display font-bold leading-tight">
         ４0代からできる
         <br />
