@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { anthropic, CLAUDE_MODEL, MAX_TOKENS } from "@/lib/anthropic";
 import { SYSTEM_PROMPT } from "@/lib/system-prompt";
 import { consumeUsage } from "@/lib/usage";
+import { AI_ENABLED } from "@/lib/features";
 
 // SDK + cookie を使うため Node ランタイムで動かす。
 export const runtime = "nodejs";
@@ -14,6 +15,11 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
  * 上限超過は 429、AI障害は 503 を返す（やさしいメッセージはクライアント側で表示）。
  */
 export async function POST(req: Request) {
+  // AIが無効（近日公開）のときは、有料APIを呼ばずに返す（料金発生を防ぐ）。
+  if (!AI_ENABLED) {
+    return Response.json({ error: "ai_disabled" }, { status: 503 });
+  }
+
   let body: { messages?: ChatMessage[] };
   try {
     body = await req.json();

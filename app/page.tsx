@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { getSession } from "@/lib/auth";
+import { AI_ENABLED } from "@/lib/features";
 
 export const dynamic = "force-dynamic"; // ログイン状態でアカウント表示を変える
 
@@ -42,19 +43,32 @@ export default function HomePage() {
         )}
       </div>
 
-      <h1 className="text-display font-bold leading-tight">
-        ４0代からできる
+      <p className="inline-block rounded bg-[#E8F1FB] px-3 py-1 text-button font-bold text-primary">
+        シニアからのAI入門編
+      </p>
+      <h1 className="mt-3 text-display font-bold leading-tight">
+        言葉で話して、
         <br />
-        AI攻略
+        らくらくメール作成
       </h1>
       <p className="mt-3 text-body-lg text-text-sub">
-        むずかしくない。話すだけ。
+        むずかしくありません。声で話すだけ。
       </p>
 
       <div className="mt-6">
-        <Link href="/chat" aria-label="今すぐ無料で試す">
-          <PrimaryButton>今すぐ 無料で試す</PrimaryButton>
+        <Link
+          href={AI_ENABLED ? "/chat" : "/learn"}
+          aria-label={AI_ENABLED ? "今すぐ無料で試す" : "無料で使い方を学ぶ"}
+        >
+          <PrimaryButton>
+            {AI_ENABLED ? "今すぐ 無料で試す" : "無料で 使ってみる"}
+          </PrimaryButton>
         </Link>
+        {!AI_ENABLED && (
+          <p className="mt-2 text-caption text-text-sub">
+            ※ AIとのおしゃべりは近日公開。まずは使い方をやさしくご案内します。
+          </p>
+        )}
       </div>
 
       {/* 安心ポイント（はじめての方へ） */}

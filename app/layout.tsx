@@ -4,9 +4,9 @@ import { Providers } from "./providers";
 import { AccessibilityBar } from "@/components/ui/AccessibilityBar";
 
 export const metadata: Metadata = {
-  title: "４0代からできるAI攻略",
+  title: "言葉で話して、らくらくメール作成｜シニアからのAI入門編",
   description:
-    "30〜60代が、むずかしくない、話すだけ。誰でも簡単にAIに触れて実践できるサイト。",
+    "声で話すだけで、メールや文章がらくらく作れる。シニアのためのやさしいAI入門サイト。",
 };
 
 export const viewport: Viewport = {
